@@ -1,0 +1,13 @@
+sku,name,description,brand,category,price,sale_price,stock,rating,reviews,attr_color,attr_size,attr_material,attr_capacity
+TENT-RDG-2P,Ridgeline 2P Backpacking Tent,"Freestanding two-person tent, 3 lb 2 oz",Ridgeline,Outdoors/Camping/Tents,349.00,279.00,12,4.6,31,green,,nylon,2 person
+TENT-RDG-4P,Ridgeline 4P Family Tent,Roomy four-person tent with vestibule,Ridgeline,Outdoors/Camping/Tents,499.00,,4,4.4,12,orange,,polyester,4 person
+TENT-SUM-1P,Summit Solo Ultralight Tent,Trekking-pole shelter for minimalists,Summit,Outdoors/Camping/Tents,289.00,,0,4.8,9,gray,,dyneema,1 person
+STOVE-PKT,Pocket Canister Stove,Boils a liter in 3.5 minutes,Summit,Outdoors/Camping/Stoves,54.99,44.99,40,4.7,210,black,,titanium,
+BAG-ALP-20,Alpine 20F Down Sleeping Bag,Water-resistant 800-fill down,Ridgeline,Outdoors/Camping/Sleeping Bags,279.00,,6,4.5,48,blue,Regular,down,
+PACK-SUM-24,Summit 24L Daypack,Hydration-compatible daypack,Summit,Outdoors/Hiking/Packs,89.00,,22,4.3,77,green,,nylon,24L
+PACK-SUM-55,Summit 55L Trekking Pack,Adjustable torso multi-day pack,Summit,Outdoors/Hiking/Packs,219.00,189.00,8,4.6,40,red,M,nylon,55L
+SHOE-TR3-BLK,Trail Runner 3,Grippy lugged outsole with rock plate,Velo,Outdoors/Hiking/Footwear,129.99,,14,4.2,153,black,10,mesh,
+SHOE-TR3-ORG,Trail Runner 3,Grippy lugged outsole with rock plate,Velo,Outdoors/Hiking/Footwear,129.99,99.99,3,4.2,153,orange,9,mesh,
+TEE-MER-M,Merino Base Tee,Odor-resistant merino t-shirt,Velo,Apparel/Shirts,65.00,,25,4.6,88,black,M,merino,
+HOODIE-FL-L,Fleece Hoodie,Midweight grid fleece sweatshirt,Ridgeline,Apparel/Layers,95.00,76.00,10,4.4,61,gray,L,polyester,
+JACKET-STRM,Stormline Rain Shell,2.5-layer waterproof jacket,Summit,Apparel/Jackets,159.00,,7,4.5,102,blue,M,nylon,
