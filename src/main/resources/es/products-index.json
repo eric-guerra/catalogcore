@@ -1,0 +1,68 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "analysis": {
+      "filter": {
+        "catalog_synonyms": {
+          "type": "synonym_graph",
+          "synonyms": [
+            "tee, t-shirt, tshirt",
+            "sneakers, trainers, running shoes",
+            "hoodie, sweatshirt",
+            "backpack, rucksack, daypack",
+            "tv, television"
+          ]
+        },
+        "english_stem": { "type": "stemmer", "language": "light_english" }
+      },
+      "analyzer": {
+        "catalog_index": { "tokenizer": "standard", "filter": ["lowercase", "asciifolding", "english_stem"] },
+        "catalog_search": { "tokenizer": "standard", "filter": ["lowercase", "asciifolding", "catalog_synonyms", "english_stem"] }
+      },
+      "normalizer": {
+        "lowercase": { "type": "custom", "filter": ["lowercase", "asciifolding"] }
+      }
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "id": { "type": "long" },
+      "sku": { "type": "keyword" },
+      "name": {
+        "type": "text", "analyzer": "catalog_index", "search_analyzer": "catalog_search",
+        "fields": {
+          "autocomplete": { "type": "search_as_you_type" },
+          "sort": { "type": "keyword", "normalizer": "lowercase" }
+        }
+      },
+      "description": { "type": "text", "analyzer": "catalog_index", "search_analyzer": "catalog_search" },
+      "brand": {
+        "type": "text",
+        "fields": { "keyword": { "type": "keyword" }, "autocomplete": { "type": "search_as_you_type" } }
+      },
+      "category": {
+        "properties": {
+          "path": { "type": "keyword" },
+          "leaf": { "type": "keyword" },
+          "text": { "type": "text", "analyzer": "catalog_index", "search_analyzer": "catalog_search" }
+        }
+      },
+      "price_cents": { "type": "long" },
+      "list_price_cents": { "type": "long" },
+      "on_sale": { "type": "boolean" },
+      "discount_pct": { "type": "integer" },
+      "in_stock": { "type": "boolean" },
+      "rating": { "type": "float" },
+      "review_count": { "type": "integer" },
+      "image_url": { "type": "keyword", "index": false },
+      "active": { "type": "boolean" },
+      "updated_at": { "type": "date" },
+      "attrs": {
+        "type": "nested",
+        "properties": { "name": { "type": "keyword" }, "value": { "type": "keyword" } }
+      },
+      "attributes": { "properties": { "text": { "type": "text", "analyzer": "catalog_index" } } }
+    }
+  }
+}
