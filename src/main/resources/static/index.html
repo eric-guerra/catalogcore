@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="storefront">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catalog Search</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body ng-controller="SearchCtrl as vm">
+  <header>
+    <div class="searchbox">
+      <input ng-model="vm.q" ng-model-options="{debounce: 150}" ng-change="vm.suggest()" ng-keydown="$event.keyCode === 13 && vm.submit()"
+             placeholder="Search products, brands or SKUs" autocomplete="off">
+      <ul class="suggestions" ng-show="vm.suggestions.length">
+        <li ng-repeat="s in vm.suggestions" ng-mousedown="vm.q = s.name; vm.submit()">{{s.name}} <span class="muted">{{s.brand}}</span></li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <nav class="crumbs" ng-if="vm.state.category">
+        <a href ng-click="vm.setCategory(null)">All</a>
+        <span ng-repeat="c in vm.crumbs()"> › <a href ng-click="vm.setCategory(c.path)">{{c.label}}</a></span>
+      </nav>
+      <label class="check"><input type="checkbox" ng-model="vm.state.inStock" ng-change="vm.search()"> In stock only</label>
+      <label class="check"><input type="checkbox" ng-model="vm.state.onSale" ng-change="vm.search()"> On sale</label>
+
+      <section ng-repeat="f in vm.result.facets" ng-if="f.buckets.length">
+        <h4>{{f.label}}</h4>
+        <ul>
+          <li ng-repeat="b in f.buckets">
+            <label ng-if="f.name !== 'category'">
+              <input type="checkbox" ng-checked="b.selected" ng-click="vm.toggle(f, b)"> {{b.label}} <span class="muted">({{b.count}})</span>
+            </label>
+            <a href ng-if="f.name === 'category'" ng-click="vm.setCategory(b.value)">{{b.label}} <span class="muted">({{b.count}})</span></a>
+          </li>
+        </ul>
+      </section>
+    </aside>
+
+    <main>
+      <div class="bar">
+        <span>{{vm.result.total | number}} results <span class="muted" ng-if="vm.result">in {{vm.result.tookMs}} ms</span></span>
+        <select ng-model="vm.state.sort" ng-change="vm.search()">
+          <option value="RELEVANCE">Best match</option>
+          <option value="PRICE_ASC">Price: low to high</option>
+          <option value="PRICE_DESC">Price: high to low</option>
+          <option value="RATING">Top rated</option>
+          <option value="NEWEST">Newest</option>
+        </select>
+      </div>
+      <div class="grid">
+        <article class="card" ng-repeat="h in vm.result.hits">
+          <div class="img" ng-style="h.imageUrl && {'background-image': 'url(' + h.imageUrl + ')'}"></div>
+          <div class="brand">{{h.brand}}</div>
+          <h3 ng-bind-html="h.nameHighlighted || h.name"></h3>
+          <div class="price">
+            <strong>{{h.priceCents / 100 | currency}}</strong>
+            <s ng-if="h.onSale">{{h.listPriceCents / 100 | currency}}</s>
+          </div>
+          <div class="muted"><span ng-if="h.rating">★ {{h.rating | number:1}} ({{h.reviewCount}})</span> <span ng-if="!h.inStock" class="oos">Out of stock</span></div>
+        </article>
+      </div>
+      <div class="pager" ng-if="vm.result.total > vm.result.size">
+        <button ng-disabled="vm.state.page === 0" ng-click="vm.go(vm.state.page - 1)">Previous</button>
+        Page {{vm.state.page + 1}} of {{vm.pages()}}
+        <button ng-disabled="vm.state.page + 1 >= vm.pages()" ng-click="vm.go(vm.state.page + 1)">Next</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-sanitize.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
