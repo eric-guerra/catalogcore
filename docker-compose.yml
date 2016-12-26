@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: catalog
+      POSTGRES_USER: catalog
+      POSTGRES_PASSWORD: catalog
+    ports: ["5432:5432"]
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.1
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms1g -Xmx1g
+    ports: ["9200:9200"]
+  app:
+    build: .
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/catalog
+      ES_URL: http://elasticsearch:9200
+    ports: ["8080:8080"]
+    depends_on: [postgres, elasticsearch]
